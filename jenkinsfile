@@ -1,10 +1,10 @@
 pipeline{
     agent any
     	environment {
-		notifyEmail ="ravish.bagasi@nagarro.com"
+		notifyEmail ="abhay.singh02@nagarro.com"
 	}
     tools{
-        maven 'maven_home'
+        maven 'Maven'
     }
     triggers {
     	cron('0 06 * * *')
@@ -25,6 +25,29 @@ pipeline{
             bat "mvn test"
             }
         }
+        stage("Publish to Artifactory"){
+            steps{
+                rtMavenDeployer(
+                    id: 'deployer',
+                    serverId: 'nagpops@artifactory',
+                    releaseRepo: 'samplerepo',
+                    snapshotRepo: 'samplerepo'
+                )
+                rtMavenRun(
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: 'deployer'
+                    )
+                rtPublishBuildInfo(
+                    serverId:'nagpops@artifactory',
+                )
+            }        
+        }
+        stage("Invoke UI Test Pipeline"){
+			steps{
+				build job: 'Dev-Ops-Freestyle-Practice'
+			}
+		}
     }
     post{
         success{
