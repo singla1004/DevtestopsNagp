@@ -45,7 +45,7 @@ pipeline{
         }
         stage("Invoke UI Test Pipeline"){
 			steps{
-				build job: 'freestyleJob'
+				build job: 'DevopsTest'
 			}
 		}
     }
