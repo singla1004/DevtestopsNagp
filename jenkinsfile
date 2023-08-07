@@ -1,10 +1,10 @@
 pipeline{
     agent any
     	environment {
-		notifyEmail ="abhay.singh02@nagarro.com"
+		notifyEmail ="mohit.kumar13@nagarro.com"
 	}
     tools{
-        maven 'Maven'
+        maven 'M2_Home'
     }
     triggers {
     	cron('0 06 * * *')
@@ -29,9 +29,9 @@ pipeline{
             steps{
                 rtMavenDeployer(
                     id: 'deployer',
-                    serverId: 'nagpops@artifactory',
-                    releaseRepo: 'samplerepo',
-                    snapshotRepo: 'samplerepo'
+                    serverId: 'mohit1004@jfactory',
+                    releaseRepo: 'example-repo-local',
+                    snapshotRepo: 'example-repo-local'
                 )
                 rtMavenRun(
                     pom: 'pom.xml',
@@ -39,7 +39,7 @@ pipeline{
                     deployerId: 'deployer'
                     )
                 rtPublishBuildInfo(
-                    serverId:'nagpops@artifactory',
+                    serverId:'mohit1004@jfactory',
                 )
             }        
         }
